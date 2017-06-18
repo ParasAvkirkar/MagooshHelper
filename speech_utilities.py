@@ -36,7 +36,7 @@ def speak_sentences(sentences, max_sentences_to_be_spoken=sys.maxsize):
 	    if i > max_sentences_to_be_spoken:
 	    	break
 	    
-	    # print(s)
+	    print(s)
 	    engine.say(s)
 	    i += 1    
 	engine.runAndWait()

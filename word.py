@@ -4,6 +4,9 @@ class Word(object):
 		self.name = name
 		self.definition = definition
 		self.example = example
+		self.name = self.name.strip()
+		self.definition = self.definition.strip()
+		self.example = self.example.strip()
 
 
 	def __str__(self):

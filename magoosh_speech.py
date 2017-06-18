@@ -1,5 +1,7 @@
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from speech_utilities import speak_sentences
+from word import Word
+
 
 import pickle
 
@@ -19,12 +21,36 @@ def worker_module():
 		end_page_no = word_sections_page_nos[section][1]
 		content_string = get_string_from_pdf(start_page_no, end_page_no)
 		list_of_words = get_sanitise_word_list(content_string)
-		with open(section + '.pickle', 'wb') as f:
-			pickle.dump(list_of_words, f)
-			# for el in list_of_words:
-			# 	f.write(str(el) + ',\n')
-			# 	# print(el)
-			# 	# print('=========================================')
+		new_list_of_words = []
+		for word in list_of_words:
+			new_list_of_words.append(partition_word_content(word))
+
+		with open(section + '.csv', 'w') as f:
+			for word_obj in new_list_of_words:
+				f.write(word_obj.name + ',' + word_obj.definition + ',' + word_obj.example + '\n')
+				# print(str(word_obj))
+
+		with open(section + '.pickle', 'w')	as f:
+			pickle.dump(new_list_of_words, f)
+		
+
+def partition_word_content(word_string):
+	word_name = ''
+	word_definition = ''
+	word_example = ''
+	content = ''
+	for word in word_string.split(' '):
+		if word_name == '' and ':' in word:
+			word_name = content + word + ' '
+			content = ''
+		elif word_definition == '' and word[0].isupper():
+			word_definition = content + '.'
+			content = word + ' '
+		else:
+			content = content +  word + ' '
+
+	word_example = content
+	return Word(word_name, word_definition, word_example)
 
 
 def revise(section_key):
@@ -84,4 +110,4 @@ def get_sanitise_word_list(content_string):
 if __name__ == '__main__':
 	worker_module()
 
-	revise('Common Words')
+	# revise('Common Words')

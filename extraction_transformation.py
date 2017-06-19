@@ -10,8 +10,10 @@ def worker_module():
 		end_page_no = word_sections_page_nos[section][1]
 		print('Section {0} Start page no: {1} End page no: {2}'.format(
 			section ,str(start_page_no), str(end_page_no)))
+		
 		content_string = get_string_from_pdf(start_page_no, end_page_no)
 		list_of_words = get_sanitise_word_list(content_string)
+		print('Total {0} words are found!'.format(str(len(list_of_words))))
 		new_list_of_words = []
 		for word in list_of_words:
 			new_list_of_words.append(partition_word_content(word))
@@ -51,6 +53,10 @@ def get_string_from_pdf(start_page_no, end_page_no):
 		page_content = input.getPage(page_no).extractText()
 		content_string = content_string + page_content + ' '
 	
+	# Minor glitch inside input.pdf related to double quotes
+	# hence following line, which replaces "s at the end of word in 's
+	content_string = content_string.replace('"s ', "'s ")
+
 	return content_string.encode('utf-8').strip()
 
 

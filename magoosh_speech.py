@@ -11,6 +11,7 @@ import traceback
 
 
 def meaning_to_word_match(meaning_keywords):
+	total_results_found = 0
 	for section in word_sections_page_nos:
 		with open(section + '.pickle', 'rb') as f:
 			list_of_words = pickle.load(f)
@@ -29,7 +30,38 @@ def meaning_to_word_match(meaning_keywords):
 				print(word_obj.example)
 				print('=======================================')
 
+			total_results_found += len(match_word_objects)
 			# print(str(len(match_word_objects)) + ' ' + str(len(list(set(match_word_objects)))))
+		
+	print('{0} results are found!'.format(str(total_results_found)))
+
+
+def check_words_collected():
+	with open('check.txt', 'w') as c:
+		for section in word_sections_page_nos:
+			with open(section + '.pickle', 'rb') as f:
+				list_of_words = pickle.load(f)
+				match_word_objects = []
+				for word_obj in list_of_words:
+					# print(str(word_obj.name))
+					c.write(str(word_obj.name) + '\n')
+
+
+def find_meaning(word):
+	match_word_objects = []
+	for section in word_sections_page_nos:
+		with open(section + '.pickle', 'rb') as f:
+			list_of_words = pickle.load(f)
+			for word_obj in list_of_words:
+				if word in word_obj.name:
+					match_word_objects.append(word_obj)
+
+	for word_obj in match_word_objects:
+		print('***************************************')
+		print(word_obj.name)	
+		print(word_obj.definition)
+		print(word_obj.example)
+		print('=======================================')	
 
 
 def revise(section_key):
@@ -47,10 +79,12 @@ def revise(section_key):
 	
 if __name__ == '__main__':
 	try:
-		worker_module()
+		# worker_module()
 
-		# revise('Common Words')
 		# meaning_to_word_match(input('Enter the key_words: ').split())		
+		find_meaning(input('Enter the word whose meaning to be search: '))
+		# revise('Common Words')
+		# check_words_collected()
 	except Exception as e:
 		print(str(e))
 		print(str(traceback.format_exc()))

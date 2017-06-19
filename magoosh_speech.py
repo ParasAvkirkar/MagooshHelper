@@ -74,17 +74,59 @@ def revise(section_key):
 			sentences.append(word_obj.definition)
 			sentences.append(word_obj.example)
 
+		print('{0} section: Words are shuffled and will come in random worder!'.format(section_key))
 		speak_sentences(sentences)
+
+def revise_all():
+	print('Words are shuffled and will come in random worder!')
+	all_words = []
+	for section in word_sections_page_nos:
+		with open(section + '.pickle', 'rb') as f:
+			list_of_words = pickle.load(f)
+			all_words.extend(list_of_words)
+
+	shuffle(all_words)
+	sentences = []
+	for word_obj in list_of_words:
+		sentences.append(word_obj.name)
+		sentences.append(word_obj.definition)
+		sentences.append(word_obj.example)
+
+	speak_sentences(sentences)
 
 	
 if __name__ == '__main__':
 	try:
-		# worker_module()
+		while True:
+			print('------------------------------------------------------------------------------')
+			print('Enter 1 for generating vocabulary data')
+			print('Enter 2 for finding word from the keywords in its definition')
+			print('Enter 3 for finding meaning of word')
+			print('Enter 4 to start revision')
+			choice = int(input('?: '))
+			if choice == 1:
+				worker_module()
+			elif choice == 2:
+				meaning_to_word_match(input('Enter the keywords in definition separated by space: ').split())
+			elif choice == 3:
+				find_meaning(input('Enter the word whose meaning to be search: '))
+			elif choice == 4:
+				s = input('Enter c for common section, b for basic section, a for advance section,'
+							+ ' Or Enter any other character for all sections: ')
+				s = s.lower()
+				if 'c' in s:
+					revise('Common Words')
+				elif 'b' in s:
+					revise('Basic Words')
+				elif 'a' in s:
+					revise('Advance Words')
+				else:
+					revise_all()
+			else:
+				print('Wrong Choice!')
 
-		# meaning_to_word_match(input('Enter the key_words: ').split())		
-		find_meaning(input('Enter the word whose meaning to be search: '))
-		# revise('Common Words')
-		# check_words_collected()
+			print('------------------------------------------------------------------------------')	
+
 	except Exception as e:
 		print(str(e))
 		print(str(traceback.format_exc()))

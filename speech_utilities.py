@@ -1,6 +1,7 @@
 import sys, os
 import datetime
 import pyttsx
+import time
 
 # Currently age and female properties are not available
 # They are just added as skeleton
@@ -15,13 +16,25 @@ def get_voice_property(engine, age=30, gender='female', accent='english-us'):
 
 	raise ValueError('Demanded accent does not matched')
 
+def onStartUtterance(name):
+	print(name)
 
 def speak_sentences(sentences, max_sentences_to_be_spoken=sys.maxsize):
 	max_sentences_to_be_spoken = min(max_sentences_to_be_spoken, len(sentences))
+
+	i = 1
+	for s in sentences:
+	    if i > max_sentences_to_be_spoken:
+	    	break
+	    print(s)
+	    speak_single_sentence(s)
+	    i += 1
+	    
+
+def speak_single_sentence(sentence):
 	engine = pyttsx.init()
 	engine.setProperty('rate', 140)
 
-	i = 1
 	# voice = get_voice_property(engine, age=10, gender='female', accent='hindi')
 	# voice = get_voice_property(engine, age=10, gender='female', accent='english')
 	voice = get_voice_property(engine, age=10, gender='female', accent='default')
@@ -30,18 +43,14 @@ def speak_sentences(sentences, max_sentences_to_be_spoken=sys.maxsize):
 	# voice = get_voice_property(engine, age=10, gender='female', accent='english_wmids')
 	# voice = get_voice_property(engine, age=10, gender='female', accent='default')
 
-	
-	engine.setProperty('voice', voice.id)
-	for s in sentences:
-	    if i > max_sentences_to_be_spoken:
-	    	break
-	    
-	    print(s)
-	    engine.say(s)
-	    i += 1    
-	engine.runAndWait()
 
+	engine.setProperty('voice', voice.id)
+	engine.say(sentence)
+	engine.runAndWait()
+    
 
 
 if __name__ == '__main__':
 	pass
+			
+			

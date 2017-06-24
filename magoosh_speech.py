@@ -103,15 +103,15 @@ if __name__ == '__main__':
 			print('Enter 2 for finding word from the keywords in its definition')
 			print('Enter 3 for finding meaning of word')
 			print('Enter 4 to start revision')
-			choice = int(input('?: '))
+			choice = int(raw_input('?: '))
 			if choice == 1:
 				worker_module()
 			elif choice == 2:
-				meaning_to_word_match(input('Enter the keywords in definition separated by space: ').split())
+				meaning_to_word_match(raw_input('Enter the keywords in definition separated by space: ').split())
 			elif choice == 3:
-				find_meaning(input('Enter the word whose meaning to be search: '))
+				find_meaning(raw_input('Enter the word whose meaning to be search: '))
 			elif choice == 4:
-				s = input('Enter c for common section, b for basic section, a for advance section,'
+				s = raw_input('Enter c for common section, b for basic section, a for advance section,'
 							+ ' Or Enter any other character for all sections: ')
 				s = s.lower()
 				if 'c' in s:

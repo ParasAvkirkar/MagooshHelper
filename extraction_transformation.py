@@ -61,7 +61,8 @@ def get_string_from_pdf(start_page_no, end_page_no):
 
 
 def get_sanitise_word_list(content_string):
-	content_list = content_string.decode().split(' ')
+	# content_list = content_string.decode().split(' ')
+	content_list = content_string.split(' ')
 	temp = []
 	for word in content_list:
 		# Consider list member of words which are not: single newline character, single empty character

@@ -25,6 +25,7 @@ def meaning_to_word_match(meaning_keywords):
 			# print(str(len(list_of_words)) + ' ' + str(len(list(set(list_of_words)))))
 			for word_obj in match_word_objects:
 				print('***************************************')
+				print(word_obj.section)
 				print(word_obj.name)
 				print(word_obj.definition)
 				print(word_obj.example)
@@ -58,6 +59,7 @@ def find_meaning(word):
 
 	for word_obj in match_word_objects:
 		print('***************************************')
+		print(word_obj.section)
 		print(word_obj.name)	
 		print(word_obj.definition)
 		print(word_obj.example)
@@ -69,6 +71,7 @@ def revise(section_key):
 		list_of_words = pickle.load(f)
 		shuffle(list_of_words)
 		sentences = []
+		sentences.append(section_key)
 		for word_obj in list_of_words:
 			sentences.append(word_obj.name)
 			sentences.append(word_obj.definition)

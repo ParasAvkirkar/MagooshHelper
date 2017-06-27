@@ -16,7 +16,7 @@ def worker_module():
 		print('Total {0} words are found!'.format(str(len(list_of_words))))
 		new_list_of_words = []
 		for word in list_of_words:
-			new_list_of_words.append(partition_word_content(word))
+			new_list_of_words.append(partition_word_content(word_string=word, section=section))
 
 		with open(section + '.csv', 'w') as f:
 			for word_obj in new_list_of_words:
@@ -27,7 +27,7 @@ def worker_module():
 			pickle.dump(new_list_of_words, f)
 		
 
-def partition_word_content(word_string):
+def partition_word_content(word_string, section):
 	word_name = ''
 	word_definition = ''
 	word_example = ''
@@ -43,7 +43,7 @@ def partition_word_content(word_string):
 			content = content +  word + ' '
 
 	word_example = content
-	return Word(word_name, word_definition, word_example)
+	return Word(word_name, word_definition, word_example, section=section)
 
 
 def get_string_from_pdf(start_page_no, end_page_no):
